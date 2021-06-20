@@ -12,8 +12,16 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+
+
 Route::middleware(['auth-application'])->group(function () {
-    Route::post('sms', 'NotificationController@send');
+    Route::post('disableAndEnableNotifications', 'ApplicationController@enableAndDisable');
+    Route::get('detailApplication', 'ApplicationController@getDetailApplication');
     Route::get('sms', 'NotificationController@get');
+
+    Route::middleware(['verify-application'])->group(function () {
+        Route::post('sms', 'NotificationController@send');
+    });
 });
 

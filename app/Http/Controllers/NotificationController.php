@@ -47,8 +47,8 @@ class NotificationController extends Controller
                 if($response->serverError()) throw new Exception("Erro de Servidor, serviço fora do ar ou em manutenção.");
             }
 
-        } catch (\Exception $ex) {
-            return response(['error' => true, 'message' => $ex->getMessage()], 400);
+        } catch (\Exception $err) {
+            return response(['error' => true, 'message' => $err->getMessage()], 400);
         }
     }
 
@@ -73,7 +73,7 @@ class NotificationController extends Controller
                 $logs = $logs->where('category', $category);
             }
 
-            $logs = $logs->get()->toArray();
+            $logs = $logs->where('partId', '<>', NULL)->get()->toArray();
             
             return response(['error' => false, 'data' => $logs ], 200);
 
@@ -81,4 +81,6 @@ class NotificationController extends Controller
             return response(['error' => true, 'message' => $ex->getMessage()], 400);
         }
     }
+
+
 }
